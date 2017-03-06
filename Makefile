@@ -10,7 +10,7 @@ dp-rna: dp_rna_secondary_structure.c
 	gcc dp_rna_secondary_structure.c -o dp-rna.oj 
 	
 .PHONY: all
-all: add-without-plus sort-linklist-in-nlogn
+all: add-without-plus sort-linklist-in-nlogn dp-rna
 	@echo 'compile all the programs'
 
 # Set our own.
