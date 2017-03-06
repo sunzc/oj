@@ -5,6 +5,9 @@ add-without-plus: add_without_plus.c
 
 sort-linklist-in-nlogn: sort_linklist_in_nlogn.c
 	gcc sort_linklist_in_nlogn.c -o sort-linklist-in-nlogn.oj
+
+dp-rna: dp_rna_secondary_structure.c
+	gcc dp_rna_secondary_structure.c -o dp-rna.oj 
 	
 .PHONY: all
 all: add-without-plus sort-linklist-in-nlogn
