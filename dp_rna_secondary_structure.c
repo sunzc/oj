@@ -5,9 +5,21 @@
 #include <time.h>
 #include <stdbool.h>
 
+/**
+ * For the following sample RNA strand:
+ *     A A C C G C U A U
+ *     1 2 3 4 5 6 7 8 9
+ * This DP alogrithm could output results like this:
+ *    1 matches 9, 2 matches 7, the others are not matched.
+ * However, does this result still meet the 'no sharp turn' requirement ?
+ * Literally no, but in fact, it might be.
+ * 
+ * How to improve it? Or to refine the definition of 'sharp turn', I don't know, yet. 
+ */
+
 #define NRNA	4
 
-char RNA_BASE_ELEMENTS[NRNA] = {'A', 'U', 'C', 'G'};
+char RNA_BASE_NAMES[NRNA] = {'A', 'U', 'C', 'G'};
 
 char *RNA_generator(int size);
 char *RNA_generator(int size) {
@@ -26,7 +38,7 @@ char *RNA_generator(int size) {
 
 	for (i = 0; i < size; i++) {
 		ran = rand() % NRNA;
-		rna[i] = RNA_BASE_ELEMENTS[ran];
+		rna[i] = RNA_BASE_NAMES[ran];
 	}
 
 	rna[size] = 0;
