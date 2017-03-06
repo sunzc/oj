@@ -34,16 +34,15 @@ char *RNA_generator(int size) {
 	return rna;
 }
 
-void initialize_opt(int *opt, int size);
-void initialize_opt(int *opt, int size) {
-	int i;
+void initialize_opt_track(int *opt, int *track, int size);
+void initialize_opt_track(int *opt, int *track, int size) {
+	int i, j;
 
-	for (i = 0; i < size - 4; i++) {
-		opt[i * size + i] =  0;
-		opt[i * size + i + 1] =  0;
-		opt[i * size + i + 2] =  0;
-		opt[i * size + i + 3] =  0;
-	}
+	for (i = 0; i < size; i++)
+		for (j = 0; j < size; j++) {
+			opt[i * size + j] = 0;
+			track[i * size + j] = -1;
+		}
 
 	return;
 }
@@ -66,19 +65,29 @@ void explore_track(int *track, int len, int i, int j);
 void explore_track(int *track, int len, int i, int j) {
 	int t;
 
+	t = track[i * len + j];
+
+	//debug printf
+	//printf("explore_track: i:%d, j:%d, t:%d\n", i, j, t);
+
 	assert(track != NULL && i >= 0 && j >= 0);
 
 	if (i >= j) {
 		printf("%d is not matched\n", i);
 		return;
+	} else if(j - i <= 4) {
+		printf("%d to %d are not matched\n", i, j);
+		return;
 	} else {
-		t = track[i * len + j];
 
 		assert(t >= i && t < j);
 
 		if (t == j - 1) {
 			printf("%d is not matched\n", j);
 			explore_track(track, len, i, j - 1);
+		} else if (t == i) {
+			printf("%d matches %d\n", t, j);
+			explore_track(track, len, t + 1, j - 1);
 		} else {
 			printf("%d matches %d\n", t, j);
 			explore_track(track, len, i, t - 1);
@@ -128,9 +137,9 @@ int dp_rna_secondary_structure(char *rna) {
 		exit(1);
 	}
 
-	initialize_opt(opt, len);
+	initialize_opt_track(opt, track, len);
 
-	for (k = 5; k < len - 1; k++)
+	for (k = 5; k < len; k++)
 		for (i = 0; i < len - k; i++) {
 			j = i + k;
 
@@ -156,6 +165,9 @@ int dp_rna_secondary_structure(char *rna) {
 					loc = t;
 				}
 			} 
+
+			// debug printf
+			//printf("i:%d, j:%d, loc:%d, a:%d, b:%d\n", i, j, loc, a, max);
 
 			b = max;
 
