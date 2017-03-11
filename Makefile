@@ -8,9 +8,12 @@ sort-linklist-in-nlogn: sort_linklist_in_nlogn.c
 
 dp-rna: dp_rna_secondary_structure.c
 	gcc dp_rna_secondary_structure.c -o dp-rna.oj 
+
+tetra-vol: tetra_vol.cpp
+	g++ tetra_vol.cpp -o vol.oj
 	
 .PHONY: all
-all: add-without-plus sort-linklist-in-nlogn dp-rna
+all: add-without-plus sort-linklist-in-nlogn dp-rna tetra-vol
 	@echo 'compile all the programs'
 
 # Set our own.
